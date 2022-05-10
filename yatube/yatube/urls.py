@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('post.urls')),
-    path('group/<slug:slug>/', include('post.urls')),
-    path('group/group_list/', include('post.urls')), # COSTIL
+    path('', include('post.urls', namespace='post')),
+    #path('group/<slug:slug>/', include('post.urls', namespace='post')),
+    path('group/group_list/', include('post.urls', namespace='post')), # COSTIL
     path('admin/', admin.site.urls),
 ]
