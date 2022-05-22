@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 #функция обработки главной страницы
 def index(request):
-    template = 'post/index.html'
+    template = 'posts/index.html'
     title = 'Это главная страница проекта Yatube'
     context = {
         'title':title
@@ -15,7 +15,7 @@ def index(request):
 
 # функция обработки групп
 def group_posts(request):
-    template = 'post/group_list.html'
+    template = 'posts/group_list.html'
     title = 'Тут будет список постов групп'
     context = {
         'title':title
