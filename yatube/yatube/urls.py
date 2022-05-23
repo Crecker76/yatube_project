@@ -18,7 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('posts.urls', namespace='posts')),
-    #path('group/<slug:list>/', include('posts.urls', namespace='posts')),
-    path('group/group_list/', include('posts.urls', namespace='posts')), # COSTIL
     path('admin/', admin.site.urls),
 ]
