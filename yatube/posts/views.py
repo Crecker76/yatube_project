@@ -8,7 +8,7 @@ from .models import Post, Group
 def index(request):
     template = 'posts/index.html'
     title = 'Это главная страница проекта Yatube'
-    posts = Post.objects.order_by('-pub_date')[:30] # последние 10 постов из базы данных
+    posts = Post.objects.order_by('-pub_date')[:10] # последние 10 постов из базы данных
     context = {
         'title':title,
         'posts':posts,
