@@ -14,7 +14,7 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts'
         ) # полея для указания ссылки на другую модель(другую таблицу) 
-    #on_delete=models.CASCADE обеспечивает связанность данных при удаление пользователя будут удалены все посты 
+    #on_delete=models.CASCADE обеспечивает связанность данных при удаление пользователя будут удалены все посты
     group = models.ForeignKey(
         'Group',
         blank= True,
@@ -24,7 +24,7 @@ class Post(models.Model):
 
 class Group(models.Model):
     
-    title = models.CharField(max_length=249)
+    title = models.CharField(max_length=200)
     slug = models.SlugField()
     description = models.TextField()
 
