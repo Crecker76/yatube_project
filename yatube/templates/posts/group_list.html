@@ -1,24 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-  <title> {{ title }}</title>  
+  Тут будет список постов групп
 {% endblock %}
 {% block content %}
-<div class="container py-5">           
-  <h1>Лев Толстой - зеркало русской революции.</h1>
-  <p> {{ group.title }} </p> <!-- name group CASTILL-->
-  <article>
-    {% for post in posts %}
-    <ul>
-      <li>
-        Автор: {{ post.author.get_full_name }}
-      </li>
-      <li>
-        Дата публикации: {{ post.pub_date|date:"d E Y" }}
-      </li>        
-    </ul>
-    <p>{{ post.text }}</p>     
-    {% if not forloop.last %}<hr>{% endif %}<!-- под последним постом нет линии -->
-    {% endfor %}
-    </article>
-</div>
+<h1>Лев Толстой - зеркало русской революции.</h1>
+  <p> {{ group }} </p> <!-- name group CASTILL-->
+  {%include 'includes/post_card.html'%}
 {% endblock %}

@@ -19,14 +19,26 @@ class Post(models.Model):
         'Group',
         blank= True,
         null= True,
-        on_delete = models.CASCADE                
+        on_delete = models.SET_NULL,
+        related_name = 'groups'                
     )
+
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __str__(self):
+        # выводим текст поста 
+        return self.text 
 
 class Group(models.Model):
     
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    description = models.TextField()
+    description = models.TextField()    
 
-    def __str__(self):
-        return self.title
+    def __str__(self):        
+        return self.title[0:10] # в имени группы выведет первые 10 символов
+
+
+    
