@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}
-  Тут будет список постов групп
+  Здесь будет информация о группах проекта Yatube
 {% endblock %}
 {% block content %}
 <h1>Лев Толстой - зеркало русской революции.</h1>
-  <p> {{ group }} </p> <!-- name group CASTILL-->
-  {%include 'includes/post_card.html'%}
+  <p> {{ group }} </p>
+  {% for post in posts %} 
+  {%include 'includes/post_card.html'%} 
+  {% endfor %}  
 {% endblock %}
