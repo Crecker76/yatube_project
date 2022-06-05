@@ -1,38 +1,11 @@
 {% extends 'base.html' %}
-<<<<<<< HEAD
-{% block content %}
-<div class="container py-5">           
-  <h1>Лев Толстой - зеркало русской революции.</h1>
-  <p> {{ group.title }} </p> 
-  <article>
-    {% for post in posts %}
-    <ul>
-      <li>
-        Автор: {{ post.author.get_full_name }}
-      </li>
-      <li>
-        Дата публикации: {{ post.pub_date|date:"d E Y" }}
-      </li>        
-    </ul>
-    <p>{{ post.text }}</p>     
-    {% if not forloop.last %}<hr>{% endif %}<!-- под последним постом нет линии -->
-    {% endfor %}
-    </article>
-</div>
-=======
 {% block title %}
   Здесь будет информация о группах проекта Yatube
 {% endblock %}
 {% block content %}
 <h1>Лев Толстой - зеркало русской революции.</h1>
-<<<<<<< HEAD
   <p> {{ group }} </p>
   {% for post in posts %} 
   {%include 'includes/post_card.html'%} 
   {% endfor %}  
-=======
-  <p> {{ group }} </p> <!-- name group CASTILL-->
-  {%include 'includes/post_card.html'%}
->>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
->>>>>>> d02573f8c47b1b72a5696213c38b8ce535187edb
 {% endblock %}

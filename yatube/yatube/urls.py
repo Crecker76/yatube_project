@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-from tokenize import group
-=======
->>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
 from django.contrib import admin
 from django.urls import path, include
 
