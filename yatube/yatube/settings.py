@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts.apps.PostsConfig',
+    'users.apps.UsersConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -102,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -112,9 +114,22 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'users:login' # указание какие страницы открывать при регистрации
+
+LOGIN_REDIRECT_URL = 'posts:index'
+
+#LOGOUT_REDIRECT_URL = 'posts:index'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')] # подключение статических файлов 
+=======
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')] # подключение статических файлов 
+
+ # Подключаем движок filebased.EmailBackend
+EMAIL_BACKEND = 'django.core.mailbackends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails') # куда отправлять письма
+>>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e

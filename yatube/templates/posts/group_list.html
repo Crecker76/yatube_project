@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+<<<<<<< HEAD
 {% block content %}
 <div class="container py-5">           
   <h1>Лев Толстой - зеркало русской революции.</h1>
@@ -18,4 +19,13 @@
     {% endfor %}
     </article>
 </div>
+=======
+{% block title %}
+  Тут будет список постов групп
+{% endblock %}
+{% block content %}
+<h1>Лев Толстой - зеркало русской революции.</h1>
+  <p> {{ group }} </p> <!-- name group CASTILL-->
+  {%include 'includes/post_card.html'%}
+>>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
 {% endblock %}

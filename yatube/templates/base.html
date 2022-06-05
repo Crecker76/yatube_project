@@ -14,19 +14,34 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Подключен файл со стандартными стилями бустрап -->
     <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %}>
+<<<<<<< HEAD
     </head>
+=======
+    <title>
+    {% block title %}
+    Последние обновления на сайте
+    {% endblock %}
+    </title>
+  </head>
+>>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
   <body>
     <header>
       {%include 'includes/header.html'%}
     </header>
     <main> 
       <!-- класс py-5 создает отступы сверху и снизу блока -->
+      <div class="container py-5"> 
       {% block content %}
       <!--Контент для каждого блока свой-->
+<<<<<<< HEAD
       {% endblock %}  
     </main>
         
 
+=======
+      {% endblock %}
+      </div>  
+    </main>   
+>>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
     {%include 'includes/footer.html'%}   
-    
   </body>

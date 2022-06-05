@@ -23,17 +23,36 @@ class Post(models.Model):
     # пользователя будут удалены все посты
     group = models.ForeignKey(
         'Group',
+<<<<<<< HEAD
         blank=True,
         null=True,
         on_delete=models.CASCADE,
         related_name='groups'
         )
 
+=======
+        blank= True,
+        null= True,
+        on_delete = models.SET_NULL,
+        related_name = 'groups'                
+    )
+>>>>>>> 570208c2d90b232d95288c6f1f2794164c308f0e
+
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __str__(self):
+        # выводим текст поста 
+        return self.text 
 
 class Group(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    description = models.TextField()
+    description = models.TextField()    
 
-    def __str__(self):
-        return self.title
+    def __str__(self):        
+        return self.title[0:10] # в имени группы выведет первые 10 символов
+
+
+    
