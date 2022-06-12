@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} Об авторе проекта {% endblock %}
+{% load static %}
+{% block content %}
+  <h1>Привет! Я автор</h1>
+  <p>
+    Тут должна быть вся информация обо мне, но тебе будет достаточно картинки
+    как я выглядил при создании данного сайта
+    <img src={% static 'img/prog_people.jpg' %}>
+  </p>
+{% endblock %}
