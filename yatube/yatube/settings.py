@@ -25,7 +25,13 @@ SECRET_KEY = 'h@j49*gjfqexb4wey%20f_(n0)84$hkg4$3_d4=87b$j#zh3k!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# переменная для работы с клиентом и эмолиции работы с браузером
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    'testserver',
+]
 
 
 # Application definition

@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Лев Толстой - зеркало русской революции.</h1>
   <p> {{ group }} </p>
-  {% for post in posts %} 
+  {% for post in page_obj %} 
   {%include 'includes/post_card.html'%} 
   {% endfor %}  
 {% endblock %}

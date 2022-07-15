@@ -8,4 +8,4 @@ class SignUp(CreateView):
     # После успешной регистрации перенаправляем пользователя на главную
     success_url = reverse_lazy('posts:index') # куда перенаправлять после успешной регистрации
     # Куда будет передана переменная form с объектом HTML форм, работа похожа на функцию render
-    template_name = 'users/signup.html' 
+    template_name = 'users/signup.html'

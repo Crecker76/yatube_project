@@ -1,8 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group, User
+from .utils import My_paginator
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
 
-NUM_OF_POSTS: int = 10 # количество постов для вывода на страницу
+
+NUM_OF_POSTS = 10 # количество постов для вывода на страницу
 
 #функция обработки главной страницы
 def index(request):
@@ -11,11 +15,7 @@ def index(request):
     #Запрос к базе данных 
     post_list = Post.objects.all()
     #Создание погинатора с параметрами по 10 на странице
-    paginator = Paginator(post_list, NUM_OF_POSTS)
-    # Из URL извлекаем номер запрошенной страницы - это значение параметра page
-    page_number = request.GET.get('page')
-    # Получаем набор записей для страницы с запрошенным номером
-    page_obj = paginator.get_page(page_number)
+    page_obj = My_paginator(request, post_list, NUM_OF_POSTS) # вынесли пагинатор в отдельный файл
     context = {        
         'page_obj': page_obj
     }
@@ -26,24 +26,27 @@ def group_posts(request, slug):
     template = 'posts/group_list.html'    
     group = get_object_or_404(Group, slug=slug)
     #posts = Post.objects.filter(group=group).order_by('-pub_date')[:NUM_OF_POSTS]
-    posts = group.groups.all()[:NUM_OF_POSTS]# group-object, groups-related name models, all()- all posts group
+    post_list= group.groups.all()# group-object, groups-related name models, all()- all posts group
+    page_obj = My_paginator(request, post_list, NUM_OF_POSTS)
     context = {        
         'group': group,
-        'posts': posts,
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 
 def profile(request, username):
-    # Код запроса к модели и создание словоря контекста
-   
+    # Код запроса к модели и создание словоря контекста  
     
     template = 'posts/profile.html'
     user = get_object_or_404(User, username=username)
     post_list = user.posts.all()
     amount_posts = post_list.count() # amount posts user
+    """
     paginator = Paginator(post_list, NUM_OF_POSTS)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    """
+    page_obj = My_paginator(request, post_list, NUM_OF_POSTS) # вынесли пагинатор в отдельный файл
     context = {
         'user': user,
         'page_obj': page_obj,
@@ -64,6 +67,40 @@ def post_detail(request, post_id):
         'amount_posts_author': amount_posts_author,
     }
     return render(request, template , context)
-    
 
+@login_required 
+def post_create(request): 
+    form = PostForm(request.POST or None) 
+    if not request.method == 'POST':
+        return render( 
+            request, 
+            'posts/create_post.html', 
+            {'form': form}
+        ) 
     
+    if not form.is_valid(): 
+        return render( 
+            request, 
+            'posts/create_post.html', 
+            {'form': form} 
+        ) 
+    post = form.save(commit=False) 
+    post.author = request.user 
+    post.save() 
+    return redirect('posts:profile', request.user.username) 
+    
+ 
+@login_required 
+def post_edit(request, post_id): 
+    post = get_object_or_404(Post, id=post_id)
+    form = PostForm(request.POST or None, instance=post) 
+    if request.method == 'POST': 
+        if form.is_valid():
+            print('form_valid')
+            form.save() 
+        return redirect('posts:post_detail', post_id=post.id) 
+    return render( 
+        request, 
+        'posts/create_post.html', 
+        {'form': form, 'post': post} 
+    ) 

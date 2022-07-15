@@ -29,5 +29,10 @@ urlpatterns = [
         LogoutView.as_view(template_name='users/password_change_done.html'),
         name='password_change_done'
     ),
+    path(
+        'password_reset/', 
+        LogoutView.as_view(template_name='users/password_reset_form.html'),
+        name='password_reset_form'
+    ),
     
 ]
