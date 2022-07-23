@@ -22,6 +22,12 @@ class Post(models.Model):
         on_delete = models.SET_NULL,
         related_name = 'groups'                
     )
+    # Поле для картинки  (не обязательное)
+    image = models.ImageField(
+        'Картинка',
+        upload_to='posts/', # Дирректория куда будут загружаться файлы
+        blank=True
+    )
 
 
     class Meta:
@@ -40,5 +46,18 @@ class Group(models.Model):
     def __str__(self):        
         return self.title[0:10] # в имени группы выведет первые 10 символов
 
+class Comment(models.Model):
 
-    
+    post = models.ForeignKey(
+        'Post',
+        null= True,
+        on_delete = models.CASCADE,
+        related_name = 'comments'                
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments'
+        )
+    text = models.TextField() # поле формата текст
+    created = models.DateTimeField(auto_now_add= True)

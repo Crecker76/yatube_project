@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
     'about.apps.AboutConfig',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -139,5 +140,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')] # подключение статических файлов 
 
  # Подключаем движок filebased.EmailBackend
-EMAIL_BACKEND = 'django.core.mailbackends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails') # куда отправлять письма
+#EMAIL_BACKEND = 'django.core.mailbackends.filebased.EmailBackend'
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails') # куда отправлять письма
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure' # Для обработки кастомизированных страницы с ошибками
+
+# Картинки будут сохранятся по данному пути например: /media/posts/ in catalog
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

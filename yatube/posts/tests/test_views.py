@@ -46,18 +46,21 @@ class PostPagesTest(TestCase):
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse('posts:group_list', kwargs={'slug': 'test_slug'}),          
             'posts/profile.html': reverse('posts:profile', kwargs={'username': 'StasVlasov'}),
-            # Запилить данные ссылки
-            #'posts/create_posts.html': reverce(posts:post_edit)
-            #'posts/create_posts.html': reverce(posts:create_post)
+            'posts/create_post.html': reverse('posts:update_post', kwargs={'post_id': int(156)}),
             'posts/post_detail.html': reverse('posts:post_detail', kwargs={'post_id': 156})
         }
 
         # проверка что возвращается правильный шаблон
         for template, reverse_name in template_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
-                response = self.guest_client.get(reverse_name)
+                response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
-
+    
+    def test_post_create_page_correct_template(self):
+        # Проверка корректности возвращемого шаблона страницей create
+        response = self.authorized_client.get(reverse('posts:post_create'))
+        self.assertTemplateUsed(response, 'posts/create_post.html')
+    
     def test_home_page_show_correct_context(self):
         """ Шаблон сформирован с правильным контекстом  posts/index.html"""
         response = self.authorized_client.get(reverse('posts:index'))
