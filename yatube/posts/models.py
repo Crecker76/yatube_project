@@ -61,3 +61,18 @@ class Comment(models.Model):
         )
     text = models.TextField() # поле формата текст
     created = models.DateTimeField(auto_now_add= True)
+
+class Follow(models.Model):
+    """ Модель системы подписки """
+    # Кто подписан
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower'
+    )
+    # На кого подписан
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following'
+    )

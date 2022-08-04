@@ -147,3 +147,10 @@ CSRF_FAILURE_VIEW = 'core.views.csrf_failure' # Для обработки кас
 # Картинки будут сохранятся по данному пути например: /media/posts/ in catalog
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Переменная для подключения кеша на боевоем используется Memcashed Redis
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}

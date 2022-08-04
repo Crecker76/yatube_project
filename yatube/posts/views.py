@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Group, User, Comment
-from .utils import My_paginator
+from .models import Post, Group, User, Comment, Follow
+from .utils import My_paginator, Source_author, Source_posts
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm
+from django.views.decorators.cache import cache_page
 
 
 NUM_OF_POSTS = 10 # количество постов для вывода на страницу
 
 #функция обработки главной страницы
+@cache_page(20 * 2)
 def index(request):
     template = 'posts/index.html'
     #posts = Post.objects.select_related('author', 'group')[:NUM_OF_POSTS] # последние количество постов из базы данных
@@ -41,6 +43,9 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     post_list = user.posts.all()
     amount_posts = post_list.count() # amount posts user
+    
+    all_following = Follow.objects.filter(user_id=request.user.pk) # все follow на котрых подписан пользователь
+    following = Source_author(all_following, username) # самописная функция 
     """
     paginator = Paginator(post_list, NUM_OF_POSTS)
     page_number = request.GET.get('page')
@@ -51,6 +56,7 @@ def profile(request, username):
         'user': user,
         'page_obj': page_obj,
         'amount_posts': amount_posts,
+        'following': following,
     }
     return render(request, template , context)
     
@@ -120,10 +126,47 @@ def post_edit(request, post_id):
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    form = CommentForm(request.POST or None)
+    form = CommentForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post = post
         comment.save()
+    else:
+        messages.error(request,'Error')    
     return redirect('posts:post_detail', post_id=post_id)
+
+@login_required
+def follow_index(request):
+    # информация о текущем пользователе доступна в переменной request.user
+    #Запрос к базе данных
+    user = get_object_or_404(User, username=request.user.username)
+    all_favorite_authors = user.follower.all() # все любимые авторы пользователя
+    post_list = Source_posts(all_favorite_authors) # Написана в отдельном файле utils.py
+    #Создание погинатора с параметрами по 10 на странице
+    page_obj = My_paginator(request, post_list, NUM_OF_POSTS) # вынесли пагинатор в отдельный файл
+    context = {        
+        'page_obj': page_obj
+    }
+    return render(request, 'posts/follow.html', context)
+
+@login_required
+def profile_follow(request, username):
+    # Подписаться на автора
+    author = get_object_or_404(User, username=username)
+    Follow.objects.create(
+        author_id = author.pk,
+        user_id = request.user.pk,
+    )
+    return redirect('posts:profile', username=username)
+
+@login_required
+def profile_unfollow(request, username):
+    # Дизлайк, отписка
+    author = get_object_or_404(User, username=username)
+    delete_follow = Follow.objects.filter(
+        author_id=author.pk,
+        user_id=request.user.pk,
+    )
+    delete_follow.delete()
+    return redirect('posts:profile', username=username)
